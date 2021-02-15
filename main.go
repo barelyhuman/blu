@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 	"os/exec"
 	"runtime"
 )
@@ -14,11 +15,10 @@ func main() {
 	if runtime.GOOS == "windows" {
 		fmt.Println("Can't Execute this on a windows machine")
 	} else {
-		executed := CmdExecute("which", "blueutil")
-		if !executed {
-			app.setBlueutilStatus(false)
+		if _, err := os.Stat("/usr/local/bin/blueutil"); os.IsNotExist(err) {
+			app.setBlueutilStatus(false, err.Error())
 		} else {
-			app.setBlueutilStatus(true)
+			app.setBlueutilStatus(true, "")
 		}
 	}
 
@@ -27,7 +27,7 @@ func main() {
 }
 
 // CmdExecute - Execute a command on the shell
-func CmdExecute(cmd string, args ...string) bool {
+func CmdExecute(cmd string, args ...string) (bool, error) {
 	if runtime.GOOS == "windows" {
 		log.Fatal("Can't Execute this on a windows machine")
 	} else {
@@ -35,9 +35,9 @@ func CmdExecute(cmd string, args ...string) bool {
 
 		if err != nil {
 			fmt.Printf("Error: %s \n", err)
-			return false
+			return false, err
 		}
-		return true
+		return true, nil
 	}
-	return false
+	return false, nil
 }

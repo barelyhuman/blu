@@ -13,7 +13,8 @@ type AppButtons struct {
 
 // AppLabels - labels that the player or app uses that are dynamic and need changing
 type AppLabels struct {
-	blueUtilStatus *widget.Label
+	blueUtilStatus  *widget.Label
+	errorStatusText *widget.Label
 }
 
 // AppWindows - all windows that the app might create or need
@@ -38,7 +39,7 @@ func (app *App) Install() {
 	app.ShowMainWindow()
 }
 
-func (app *App) setBlueutilStatus(found bool) {
+func (app *App) setBlueutilStatus(found bool, err string) {
 	labelText := "Blueutil not found, install using `brew install blueutil`"
 	app.blueUtilState = 0
 	if found {
@@ -46,6 +47,7 @@ func (app *App) setBlueutilStatus(found bool) {
 		labelText = "Blueutil Found."
 	}
 	app.labels.blueUtilStatus = widget.NewLabel(labelText)
+	app.labels.errorStatusText = widget.NewLabel(err)
 }
 
 // DrawMainWindow - draw the main window
@@ -53,9 +55,9 @@ func (app *App) DrawMainWindow() {
 	app.windows.mainWindow = app.appInstance.NewWindow("Blu")
 	app.windows.mainWindow.Resize(fyne.NewSize(300, 40))
 	resetButton := widget.NewButton("Reset Bluetooth", func() {
-		CmdExecute("blueutil", "-p", "0")
+		CmdExecute("/usr/local/bin/blueutil", "-p", "0")
 		CmdExecute("sleep", "2")
-		CmdExecute("blueutil", "-p", "1")
+		CmdExecute("/usr/local/bin/blueutil", "-p", "1")
 	})
 	if app.blueUtilState == 0 {
 		resetButton.Disable()
