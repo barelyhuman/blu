@@ -38,3 +38,4 @@ CHANGELOG.txt
 commitlog
 commitlog-darwin-amd64.tar.gz
 commitlog-linux-amd64.tar.gz
+.DS_Store
