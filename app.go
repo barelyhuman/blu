@@ -55,9 +55,9 @@ func (app *App) DrawMainWindow() {
 	app.windows.mainWindow = app.appInstance.NewWindow("Blu")
 	app.windows.mainWindow.Resize(fyne.NewSize(300, 40))
 	resetButton := widget.NewButton("Reset Bluetooth", func() {
-		CmdExecute("/usr/local/bin/blueutil", "-p", "0")
+		CmdExecute(blueUtilPath, "-p", "0")
 		CmdExecute("sleep", "2")
-		CmdExecute("/usr/local/bin/blueutil", "-p", "1")
+		CmdExecute(blueUtilPath, "-p", "1")
 	})
 	if app.blueUtilState == 0 {
 		resetButton.Disable()

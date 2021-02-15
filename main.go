@@ -8,14 +8,17 @@ import (
 	"runtime"
 )
 
+const blueUtilPath = "/usr/local/bin/blueutil"
+
 func main() {
 
 	app := &App{}
 
 	if runtime.GOOS == "windows" {
+		// TODO: Show this as a popup on the main app to let the user know
 		fmt.Println("Can't Execute this on a windows machine")
 	} else {
-		if _, err := os.Stat("/usr/local/bin/blueutil"); os.IsNotExist(err) {
+		if _, err := os.Stat(blueUtilPath); os.IsNotExist(err) {
 			app.setBlueutilStatus(false, err.Error())
 		} else {
 			app.setBlueutilStatus(true, "")
@@ -30,14 +33,14 @@ func main() {
 func CmdExecute(cmd string, args ...string) (bool, error) {
 	if runtime.GOOS == "windows" {
 		log.Fatal("Can't Execute this on a windows machine")
-	} else {
-		_, err := exec.Command(cmd, args...).Output()
-
-		if err != nil {
-			fmt.Printf("Error: %s \n", err)
-			return false, err
-		}
-		return true, nil
 	}
-	return false, nil
+
+	_, err := exec.Command(cmd, args...).Output()
+
+	if err != nil {
+		fmt.Printf("Error: %s \n", err)
+		return false, err
+	}
+	return true, nil
+
 }
