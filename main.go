@@ -14,18 +14,24 @@ func main() {
 
 	app := &App{}
 
-	if runtime.GOOS == "windows" {
+	app.Install()
+
+	if runtime.GOOS != "darwin" {
 		// TODO: Show this as a popup on the main app to let the user know
 		fmt.Println("Can't Execute this on a windows machine")
+		app.DrawWarningWindow("Error:", "Can't Execute this on a windows machine")
+		app.ShowWarningWindow()
 	} else {
+		app.Install()
 		if _, err := os.Stat(blueUtilPath); os.IsNotExist(err) {
 			app.setBlueutilStatus(false, err.Error())
 		} else {
 			app.setBlueutilStatus(true, "")
 		}
+		app.DrawMainWindow()
+		app.ShowMainWindow()
 	}
 
-	app.Install()
 	app.appInstance.Run()
 }
 

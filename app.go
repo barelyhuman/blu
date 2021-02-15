@@ -19,7 +19,8 @@ type AppLabels struct {
 
 // AppWindows - all windows that the app might create or need
 type AppWindows struct {
-	mainWindow fyne.Window
+	mainWindow    fyne.Window
+	warningWindow fyne.Window
 }
 
 // App - Base app wrapper with needed pointers and refs to handle app state
@@ -34,9 +35,6 @@ type App struct {
 // Install - initial setup for the App
 func (app *App) Install() {
 	app.appInstance = fyneApp.NewWithID("im.reaper.blu")
-
-	app.DrawMainWindow()
-	app.ShowMainWindow()
 }
 
 func (app *App) setBlueutilStatus(found bool, err string) {
@@ -73,4 +71,20 @@ func (app *App) DrawMainWindow() {
 // ShowMainWindow - show the main window
 func (app *App) ShowMainWindow() {
 	app.windows.mainWindow.Show()
+}
+
+// DrawWarningWindow - Draw the warning window with the given title and message
+func (app *App) DrawWarningWindow(title string, message string) {
+	app.windows.warningWindow = app.appInstance.NewWindow(title)
+	warningLabel := widget.NewLabel(message)
+	app.windows.warningWindow.SetContent(
+		widget.NewVBox(
+			warningLabel,
+		),
+	)
+}
+
+// ShowWarningWindow - show the main window
+func (app *App) ShowWarningWindow() {
+	app.windows.warningWindow.Show()
 }
