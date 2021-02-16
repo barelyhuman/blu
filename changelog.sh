@@ -1,4 +1,4 @@
-# #!/bin/bash
+#!/bin/bash
 version=v0.0.4-dev.1
 
 # Add check for wget
