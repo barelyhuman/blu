@@ -2,6 +2,9 @@
 One click bluetooth reset for mac os x
 
 
+![Package Mac](https://github.com/barelyhuman/blu/workflows/Package%20Mac/badge.svg)
+[![Go Report Card](https://goreportcard.com/badge/github.com/barelyhuman/blu)](https://goreportcard.com/report/github.com/barelyhuman/blu)
+
 ## Motivation
 I use a wired mouse and a bluetooth keyboard with a docked macbook which looses the bluetooth connectivity when any other iDevice interrupts the frequency having to undock, reset bluetooh and then restart the system, I use blueutil as a reset when the keyboard is accessible but then a GUI helps when the keyboard itself is inaccessible.
 
