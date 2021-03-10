@@ -47,7 +47,8 @@ jobs:
       - name: Package App Mac
         if: matrix.os == 'macOS-latest'
         run: |
-          fyne package -os darwin -name "Blu"
+          chmod +x build.sh
+          ./build.sh
           mkdir -p dist 
           mv "Blu.app" dist/
           cd dist
