@@ -1,0 +1,2 @@
+#!/bin/sh
+/usr/bin/osascript -e 'do shell script "sudo rm -rf /Library/Preferences/com.apple.Bluetooth.plist" with prompt "Blu would like to take root permissions to delete the bluetooth settings plist" with administrator privileges'

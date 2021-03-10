@@ -1,6 +1,9 @@
 package main
 
 import (
+	"log"
+	"os/exec"
+
 	"fyne.io/fyne"
 	fyneApp "fyne.io/fyne/app"
 	"fyne.io/fyne/widget"
@@ -56,7 +59,20 @@ func (app *App) DrawMainWindow() {
 		CmdExecute(blueUtilPath, "-p", "0")
 		CmdExecute("sleep", "2")
 		CmdExecute(blueUtilPath, "-p", "1")
+		app.DrawWarningWindow("Reset", "Bluetooth has been Reset")
+		app.ShowWarningWindow()
 	})
+
+	removeSettingsButton := widget.NewButton("Remove Settings (requires root)", func() {
+		err := exec.Command("bash", "./scripts/remove-settings.sh").Run()
+		app.DrawWarningWindow("Deleted", "Attempted a delete, kindly restart to regenerate needed files.")
+		if err != nil {
+			log.Println(err)
+			app.DrawWarningWindow("Error", "There was an error removing the settings...")
+		}
+		app.ShowWarningWindow()
+	})
+
 	if app.blueUtilState == 0 {
 		resetButton.Disable()
 	}
@@ -64,6 +80,7 @@ func (app *App) DrawMainWindow() {
 		widget.NewVBox(
 			app.labels.blueUtilStatus,
 			resetButton,
+			removeSettingsButton,
 		),
 	)
 }
